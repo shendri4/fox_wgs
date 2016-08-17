@@ -1,1 +1,2 @@
-# fox_wgs
+# fox cancer whole genome sequence analysis scripts
+
