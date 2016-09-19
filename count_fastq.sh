@@ -10,7 +10,7 @@ fi
 filear=${@};
 for i in ${filear[@]}
 do
-lines=$(wc -l $i|cut -d " " -f 1)
+lines=$(zcat $i | wc -l|cut -d " " -f 1)
 count=$(($lines / 4))
 echo -n -e "\t$i : "
 echo "$count"  | \
