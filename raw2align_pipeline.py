@@ -25,7 +25,7 @@ bamFolder = '02-Mapped'
 variantFolder = '03-Calls'
 gatkPath = '/opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar'
 rawdataDir = '0rawdata_test'
-bwaIndex = '/dev/shm/bwaidx/GRCH38_bwa.fa'
+bwaIndex = '/mnt/lfs2/hend6746/wolves/reference/canfam31/canfam31.fa'
 gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s -T HaplotypeCaller' % bwaIndex
 os.system('mkdir -p %s' % resultsDir)
 os.system('mkdir -p %s' % bamFolder)
