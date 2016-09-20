@@ -24,7 +24,7 @@ resultsDir = '01-Cleaned'
 bamFolder = '02-Mapped'
 variantFolder = '03-Calls'
 gatkPath = '/opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar'
-rawdataDir = '00-RawData'
+rawdataDir = '0rawdata_test'
 bwaIndex = '/dev/shm/bwaidx/GRCH38_bwa.fa'
 gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s -T HaplotypeCaller' % bwaIndex
 os.system('mkdir -p %s' % resultsDir)
@@ -44,8 +44,8 @@ for sample in samples:
 					'>>', logFile, '2>&1'])
     log(cmd, logCommands)
     os.system(cmd)
-    
-    # run sickle
+'''
+    # Second run sickle
     cmd = ' '.join(['sickle pe --length-threshold 200 --qual-threshold 25 --qual-type sanger -f', jp(rawdataDir, sample + '_R1_001.fastq.gz'),
                     '-r', jp(rawdataDir, sample + '_R2_001.fastq.gz'), '--output-pe1', jp(resultsDir, sample + '_sickle_PE1.fastq'),
                     '--output-pe2', jp(resultsDir, sample + '_sickle_PE2.fastq'),
@@ -53,7 +53,7 @@ for sample in samples:
     log(cmd, logCommands)
     os.system(cmd)
 
-    # Second run flash2
+    # Third run flash2
     cmd = ' '.join(['flash2 --max-overlap 600 -m 15 -x .10 -e 35 --allow-outies -t 7 -C 25 -o', sample + '_flash',
                     '-d', resultsDir, jp(resultsDir, sample + '_sickle_PE1.fastq'), jp(resultsDir, sample + '_sickle_PE2.fastq'),
                      '>>', logFile, '2>&1'])
@@ -129,3 +129,4 @@ os.system(cmd)
 #cmd = ' '.join(['samtools merge', jp(bamFolder, "*.bam")])
 
 #java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R /dev/shm/bwaidx/GRCH38_bwa.fa -T HaplotypeCaller -I test.bam -o output.raw.snps.indels.vcf
+'''
