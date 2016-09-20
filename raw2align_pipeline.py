@@ -1,0 +1,131 @@
+#!/usr/bin/env python
+#import argparse
+#from glob import glob
+from os.path import join as jp
+import os
+
+VERBOSE=False
+
+#Function definitions:
+def log(txt, out):
+    if VERBOSE:
+        print(txt)
+    out.write(txt+'\n')
+    out.flush()
+
+## Read in samples and put them in a list:
+samples = []
+for l in open('samples.txt'):
+    if len(l) > 1:
+        samples.append(l.split('/')[-1].replace('_R1_001.fastq.gz', '').strip())
+
+# Setup folders and paths variables:
+resultsDir = '01-Cleaned'
+bamFolder = '02-Mapped'
+variantFolder = '03-Calls'
+gatkPath = '/opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar'
+rawdataDir = '00-RawData'
+bwaIndex = '/dev/shm/bwaidx/GRCH38_bwa.fa'
+gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s -T HaplotypeCaller' % bwaIndex
+os.system('mkdir -p %s' % resultsDir)
+os.system('mkdir -p %s' % bamFolder)
+os.system('mkdir -p %s' % variantFolder)
+
+##### Run pipeline ###
+for sample in samples:
+    print "Processing", sample, "....."
+    # Set up files:
+    logFile = jp(resultsDir, sample + '_cleaning.log')
+    logCommands = open(jp(resultsDir, sample + '_commands.log'), 'w')
+
+    # First run superdeduper
+    cmd = ' '.join(['super_deduper -1', jp(rawdataDir, sample + '_R1_001.fastq.gz'),
+                    '-2', jp(rawdataDir, sample + '_R2_001.fastq.gz'), '-p', jp(resultsDir, sample + '_sd_'),
+					'>>', logFile, '2>&1'])
+    log(cmd, logCommands)
+    os.system(cmd)
+    
+    # run sickle
+    cmd = ' '.join(['sickle pe --length-threshold 200 --qual-threshold 25 --qual-type sanger -f', jp(rawdataDir, sample + '_R1_001.fastq.gz'),
+                    '-r', jp(rawdataDir, sample + '_R2_001.fastq.gz'), '--output-pe1', jp(resultsDir, sample + '_sickle_PE1.fastq'),
+                    '--output-pe2', jp(resultsDir, sample + '_sickle_PE2.fastq'),
+                    '--output-single', jp(resultsDir, sample + '_sickle_SE.fastq'), '>>', logFile, '2>&1'])
+    log(cmd, logCommands)
+    os.system(cmd)
+
+    # Second run flash2
+    cmd = ' '.join(['flash2 --max-overlap 600 -m 15 -x .10 -e 35 --allow-outies -t 7 -C 25 -o', sample + '_flash',
+                    '-d', resultsDir, jp(resultsDir, sample + '_sickle_PE1.fastq'), jp(resultsDir, sample + '_sickle_PE2.fastq'),
+                     '>>', logFile, '2>&1'])
+    log(cmd, logCommands)
+    os.system(cmd)
+    # Combine SE files:
+    cmd = ' '.join(['cat', jp(resultsDir, sample + '_sickle_SE.fastq'), jp(resultsDir, sample + '_flash.extendedFrags.fastq'),
+                    '>', jp(resultsDir, sample + "_cleaned_SE.fastq")])
+    log(cmd, logCommands)
+    os.system(cmd)
+
+    # Rename PE and SE files to something nicer:
+    cmd = ' '.join(['mv', jp(resultsDir, sample + "_flash.notCombined_1.fastq"), jp(resultsDir, sample + "_cleaned_PE1.fastq")])
+    log(cmd, logCommands)
+    os.system(cmd)
+    cmd = ' '.join(['mv', jp(resultsDir, sample + "_flash.notCombined_2.fastq"), jp(resultsDir, sample + "_cleaned_PE2.fastq")])
+    log(cmd, logCommands)
+    os.system(cmd)
+
+    # Clean up intermediary files:
+    cmd = ' '.join(['rm', jp(resultsDir, sample + "_sickle*"), jp(resultsDir, sample + "_flash.extendedFrags.fastq")])
+    log(cmd, logCommands)
+    os.system(cmd)
+
+    # Compress cleaned files:
+    cmd = ' '.join(['gzip', jp(resultsDir, '*.fastq')])
+    log(cmd, logCommands)
+    os.system(cmd)
+
+    # Run BWA to map samples, combine sam files, sort
+    logFile = jp(bamFolder, sample + '_mapping.log')
+    cmd = ' '.join(["bwa mem -t 4 -R '@RG\tID:bwa\tSM:" + sample + "\tPL:ILLUMINA'",
+                    bwaIndex, jp(resultsDir, sample + "_cleaned_PE1.fastq.gz"),
+                    jp(resultsDir, sample + "_cleaned_PE2.fastq.gz"), ">", jp(bamFolder, sample + "_PE.sam"),
+                    "2>", logFile])
+    log(cmd, logCommands)
+    os.system(cmd)
+    cmd = ' '.join(["bwa mem -t 4 -R '@RG\tID:bwa\tSM:" + sample + "\tPL:ILLUMINA'",
+                    bwaIndex, jp(resultsDir, sample + "_cleaned_SE.fastq.gz"), ">>", jp(bamFolder, sample + "_SE.sam"),
+                    "2>>", logFile])
+    log(cmd, logCommands)
+    os.system(cmd)
+
+    #merge and sort
+    cmd = ' '.join(['cat', jp(bamFolder, sample + "_PE.sam"), '>', jp(bamFolder, sample + ".sam")])
+    log(cmd, logCommands)
+    os.system(cmd)
+    cmd = ' '.join(['samtools view', jp(bamFolder, sample + "_SE.sam"), '>>', jp(bamFolder, sample + ".sam")])
+    log(cmd, logCommands)
+    os.system(cmd)
+    cmd = ' '.join(['samtools view -bS', jp(bamFolder, sample + ".sam"), '| samtools sort - -o', jp(bamFolder, sample) + ".bam"])
+    log(cmd, logCommands)
+    os.system(cmd)
+
+    #Index:
+    cmd = ' '.join(['samtools index', jp(bamFolder, sample) + ".bam"])
+    log(cmd, logCommands)
+    os.system(cmd)
+
+    gatkCall += ' -I ' + jp(bamFolder, sample) + ".bam"
+    logCommands.close()
+
+gatkCall += ' -o output.raw.variants.vcf'
+
+print "Now call gatk with:\n"+gatkCall
+with open("run_gatk.sh", 'w') as outf:
+    outf.write(gatkCall + '\n')
+# Clean up sam files:
+cmd = ' '.join(['rm', jp(bamFolder, "*.sam")])
+os.system(cmd)
+
+##### Merge all bam files
+#cmd = ' '.join(['samtools merge', jp(bamFolder, "*.bam")])
+
+#java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R /dev/shm/bwaidx/GRCH38_bwa.fa -T HaplotypeCaller -I test.bam -o output.raw.snps.indels.vcf
