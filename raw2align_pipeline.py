@@ -55,7 +55,8 @@ for sample in samples:
     os.system(cmd)
 
     # Second run sickle
-    cmd = ' '.join(['sickle pe --length-threshold 200 --qual-threshold 25 --qual-type sanger -f', jp(resultsDir, sample + '_sd_nodup_PE1.fastq'),
+    #The --length-threshold was set to 200, but that seems really long; default is 20
+    cmd = ' '.join(['sickle pe --length-threshold 20 --qual-threshold 25 --qual-type sanger -f', jp(resultsDir, sample + '_sd_nodup_PE1.fastq'),
                     '-r', jp(resultsDir, sample + '_sd_nodup_PE2.fastq'), 
                     '--output-pe1', jp(resultsDir, sample + '_sickle_PE1.fastq'),
                     '--output-pe2', jp(resultsDir, sample + '_sickle_PE2.fastq'),
@@ -65,7 +66,8 @@ for sample in samples:
     
 
     # Third run flash2
-    cmd = ' '.join(['flash2 --max-overlap 600 -m 15 -x .10 -e 35 --allow-outies -t 7 -C 25 -o', sample + '_flash',
+    # the --max-overlap was set to 600, but that seems really long; default is 65, try 400
+    cmd = ' '.join(['flash2 --max-overlap 400 --min-overlap 15 --max-mismatch-density .10 --min-overlap-outie 35 --allow-outies --threads 7 --percent-cutoff 25 -o', sample + '_flash',
                     '-d', resultsDir, jp(resultsDir, sample + '_sickle_PE1.fastq'), jp(resultsDir, sample + '_sickle_PE2.fastq'),
                      '>>', logFile, '2>&1'])
     log(cmd, logCommands)
