@@ -55,8 +55,9 @@ for sample in samples:
     os.system(cmd)
 
     # Second run sickle
-    cmd = ' '.join(['sickle pe --length-threshold 200 --qual-threshold 25 --qual-type sanger -f', jp(rawdataDir, sample + '_sd_nodup_PE1.fastq'),
-                    '-r', jp(rawdataDir, sample + '_sd_nodup_PE2.fastq'), '--output-pe1', jp(resultsDir, sample + '_sickle_PE1.fastq'),
+    cmd = ' '.join(['sickle pe --length-threshold 200 --qual-threshold 25 --qual-type sanger -f', jp(resultsDir, sample + '_sd_nodup_PE1.fastq'),
+                    '-r', jp(resultsDir, sample + '_sd_nodup_PE2.fastq'), 
+                    '--output-pe1', jp(resultsDir, sample + '_sickle_PE1.fastq'),
                     '--output-pe2', jp(resultsDir, sample + '_sickle_PE2.fastq'),
                     '--output-single', jp(resultsDir, sample + '_sickle_SE.fastq'), '>>', logFile, '2>&1'])
     log(cmd, logCommands)
