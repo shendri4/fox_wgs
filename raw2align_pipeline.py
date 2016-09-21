@@ -53,7 +53,7 @@ for sample in samples:
 					'>>', logFile, '2>&1'])
     log(cmd, logCommands)
     os.system(cmd)
-
+'''
     # Second run sickle
     cmd = ' '.join(['sickle pe --length-threshold 200 --qual-threshold 25 --qual-type sanger -f', jp(rawdataDir, sample + '_R1_001.fastq.gz'),
                     '-r', jp(rawdataDir, sample + '_R2_001.fastq.gz'), '--output-pe1', jp(resultsDir, sample + '_sickle_PE1.fastq'),
@@ -61,7 +61,7 @@ for sample in samples:
                     '--output-single', jp(resultsDir, sample + '_sickle_SE.fastq'), '>>', logFile, '2>&1'])
     log(cmd, logCommands)
     os.system(cmd)
-'''
+
     # Third run flash2
     cmd = ' '.join(['flash2 --max-overlap 600 -m 15 -x .10 -e 35 --allow-outies -t 7 -C 25 -o', sample + '_flash',
                     '-d', resultsDir, jp(resultsDir, sample + '_sickle_PE1.fastq'), jp(resultsDir, sample + '_sickle_PE2.fastq'),
