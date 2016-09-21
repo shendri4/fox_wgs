@@ -63,13 +63,15 @@ for sample in samples:
     log(cmd, logCommands)
     os.system(cmd)
     
-'''
+
     # Third run flash2
     cmd = ' '.join(['flash2 --max-overlap 600 -m 15 -x .10 -e 35 --allow-outies -t 7 -C 25 -o', sample + '_flash',
                     '-d', resultsDir, jp(resultsDir, sample + '_sickle_PE1.fastq'), jp(resultsDir, sample + '_sickle_PE2.fastq'),
                      '>>', logFile, '2>&1'])
     log(cmd, logCommands)
     os.system(cmd)
+
+'''
     # Combine SE files:
     cmd = ' '.join(['cat', jp(resultsDir, sample + '_sickle_SE.fastq'), jp(resultsDir, sample + '_flash.extendedFrags.fastq'),
                     '>', jp(resultsDir, sample + "_cleaned_SE.fastq")])
