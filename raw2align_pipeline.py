@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #import argparse
 #from glob import glob
-#Usage: PATH/raw2align_pipeline.py <project path> <rawdata directory>
 '''
 Make sure to load:
 module load python/2.7.10
@@ -23,30 +22,24 @@ def log(txt, out):
     out.write(txt+'\n')
     out.flush()
 
-
-# Setup folders and paths variables:
-projectDir = str(sys.argv[1])
-rawdataDir = str(sys.argv[2])
-resultsDir = jp(projectDir,'01-Cleaned')
-bamFolder = jp(projectDir,'02-Mapped')
-variantFolder = jp(projectDir,'03-Calls')
-#gatkPath = '/opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar'
-bwaIndex = '/mnt/lfs2/hend6746/wolves/reference/canfam31/canfam31.fa'
-#gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s -T HaplotypeCaller' % bwaIndex
-os.system('mkdir -p %s' % resultsDir)
-os.system('mkdir -p %s' % bamFolder)
-os.system('mkdir -p %s' % variantFolder)
-
-
 ## Read in samples and put them in a list:
-#cmd = ' '.join(['ls -l', jp(rawdataDir, '*_R1_001.fastq.gz'), '| awk "{print $9}" > samples.txt'])
-os.system('ls *_R1_001.fastq.gz > samples.txt')
-
 samples = []
 for l in open('samples.txt'):
     if len(l) > 1:
         samples.append(l.split('/')[-1].replace('_R1_001.fastq.gz', '').strip())
 
+
+# Setup folders and paths variables:
+resultsDir = '01-Cleaned'
+bamFolder = '02-Mapped'
+variantFolder = '03-Calls'
+#gatkPath = '/opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar'
+rawdataDir = '/mnt/lfs2/hend6746/fox_cancer/0rawdata_test'
+bwaIndex = '/mnt/lfs2/hend6746/wolves/reference/canfam31/canfam31.fa'
+#gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s -T HaplotypeCaller' % bwaIndex
+os.system('mkdir -p %s' % resultsDir)
+os.system('mkdir -p %s' % bamFolder)
+os.system('mkdir -p %s' % variantFolder)
 
 ##### Run pipeline ###
 for sample in samples:
