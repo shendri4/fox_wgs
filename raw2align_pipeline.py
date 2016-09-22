@@ -48,6 +48,7 @@ for sample in samples:
     logCommands = open(jp(resultsDir, sample + '_commands.log'), 'w')
 
     # First run superdeduper
+    # David said don't run the compression (16Sep21)
     cmd = ' '.join(['super_deduper -1', jp(rawdataDir, sample + '_R1_001.fastq.gz'),
                     '-2', jp(rawdataDir, sample + '_R2_001.fastq.gz'), '-p', jp(resultsDir, sample + '_sd'),
 					'>>', logFile, '2>&1'])
@@ -67,7 +68,8 @@ for sample in samples:
 
     # Third run flash2
     # the --max-overlap was set to 600, but that seems really long; default is 65, try 400
-    cmd = ' '.join(['flash2 --max-overlap 400 --min-overlap 15 --max-mismatch-density .10 --min-overlap-outie 35 --allow-outies --threads 7 --percent-cutoff 25 -o', sample + '_flash',
+    # --max-overlap 400 --min-overlap 15 --max-mismatch-density .10 --min-overlap-outie 35 --percent-cutoff 25
+    cmd = ' '.join(['flash2  --allow-outies --threads 7 -o', sample + '_flash',
                     '-d', resultsDir, jp(resultsDir, sample + '_sickle_PE1.fastq'), jp(resultsDir, sample + '_sickle_PE2.fastq'),
                      '>>', logFile, '2>&1'])
     log(cmd, logCommands)
