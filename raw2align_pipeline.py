@@ -136,6 +136,3 @@ for sample in samples:
     os.system(cmd)
     logCommands.close()
 
-    
-'''
-
