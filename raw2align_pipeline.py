@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #import argparse
 #from glob import glob
-#Usage: PATH/raw2align_pipeline.py <PATH2rawdata>
+#Usage: PATH/raw2align_pipeline.py <project path> <rawdata directory>
 '''
 Make sure to load:
 module load python/2.7.10
@@ -25,11 +25,12 @@ def log(txt, out):
 
 
 # Setup folders and paths variables:
-resultsDir = '01-Cleaned'
-bamFolder = '02-Mapped'
-variantFolder = '03-Calls'
+projectDir = str(sys.argv[1])
+rawdataDir = str(sys.argv[2])
+resultsDir = jp(projectDir,'01-Cleaned')
+bamFolder = jp(projectDir,'02-Mapped')
+variantFolder = jp(projectDir,'03-Calls')
 #gatkPath = '/opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar'
-rawdataDir = str(sys.argv[1])
 bwaIndex = '/mnt/lfs2/hend6746/wolves/reference/canfam31/canfam31.fa'
 #gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s -T HaplotypeCaller' % bwaIndex
 os.system('mkdir -p %s' % resultsDir)
