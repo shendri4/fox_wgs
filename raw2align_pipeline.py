@@ -23,12 +23,6 @@ def log(txt, out):
     out.write(txt+'\n')
     out.flush()
 
-## Read in samples and put them in a list:
-samples = []
-for l in open('samples.txt'):
-    if len(l) > 1:
-        samples.append(l.split('/')[-1].replace('_R1_001.fastq.gz', '').strip())
-
 
 # Setup folders and paths variables:
 resultsDir = '01-Cleaned'
@@ -41,6 +35,15 @@ bwaIndex = '/mnt/lfs2/hend6746/wolves/reference/canfam31/canfam31.fa'
 os.system('mkdir -p %s' % resultsDir)
 os.system('mkdir -p %s' % bamFolder)
 os.system('mkdir -p %s' % variantFolder)
+
+
+## Read in samples and put them in a list:
+cmd = ' '.join(['ls -l', jp(rawdataDir, '*_R1_001.fastq.gz'), '| awk '{print $9}' > samples.txt'])
+samples = []
+for l in open('samples.txt'):
+    if len(l) > 1:
+        samples.append(l.split('/')[-1].replace('_R1_001.fastq.gz', '').strip())
+
 
 ##### Run pipeline ###
 for sample in samples:
