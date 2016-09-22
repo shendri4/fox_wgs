@@ -6,6 +6,7 @@ Make sure to load:
 module load python/2.7.10
 module load bwa
 module load grc
+module load samtools
 '''
 
 from os.path import join as jp
@@ -99,8 +100,9 @@ for sample in samples:
     cmd = ' '.join(['gzip', jp(resultsDir, '*.fastq')])
     log(cmd, logCommands)
     os.system(cmd)
-'''
+
     # Run BWA to map samples, combine sam files, sort
+    # -t number of threads -R read group header 
     logFile = jp(bamFolder, sample + '_mapping.log')
     cmd = ' '.join(["bwa mem -t 4 -R '@RG\tID:bwa\tSM:" + sample + "\tPL:ILLUMINA'",
                     bwaIndex, jp(resultsDir, sample + "_cleaned_PE1.fastq.gz"),
@@ -113,7 +115,7 @@ for sample in samples:
                     "2>>", logFile])
     log(cmd, logCommands)
     os.system(cmd)
-
+'''
     #merge and sort
     cmd = ' '.join(['cat', jp(bamFolder, sample + "_PE.sam"), '>', jp(bamFolder, sample + ".sam")])
     log(cmd, logCommands)
