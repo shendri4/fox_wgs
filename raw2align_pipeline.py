@@ -52,7 +52,7 @@ for sample in samples:
     # David said don't run the compression (16Sep21)
     cmd = ' '.join(['super_deduper -1', jp(rawdataDir, sample + '_R1_001.fastq.gz'),
                     '-2', jp(rawdataDir, sample + '_R2_001.fastq.gz'), '-p', jp(resultsDir, sample + '_sd'),
-					'>>', logFile, '2>&1'])
+                    '>>', logFile, '2>&1'])
     log(cmd, logCommands)
     os.system(cmd)
 
@@ -135,10 +135,10 @@ for sample in samples:
     #gatkCall += ' -I ' + jp(bamFolder, sample) + ".bam"
     #logCommands.close()
 
-	#Call SNPs with GATK
-	logFile = jp(variantFolder, sample + '_GATK.log')
-	cmd = ' '.join([gatkCall,  ' -I ' + jp(bamFolder, sample) + ".bam", 
-				' -o ' + jp(variantFolder, sample) + ".raw.variants.vcf", '>>', logFile, '2>&1'])
+    #Call SNPs with GATK
+    logFile = jp(variantFolder, sample + '_GATK.log')
+    cmd = ' '.join([gatkCall,  ' -I ' + jp(bamFolder, sample) + ".bam", 
+                    ' -o ' + jp(variantFolder, sample) + ".raw.variants.vcf", '>>', logFile, '2>&1'])
     log(cmd, logCommands)
     os.system(cmd)
     
