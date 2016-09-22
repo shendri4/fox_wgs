@@ -27,7 +27,7 @@ for l in open('samples.txt'):
     if len(l) > 1:
         samples.append(l.split('/')[-1].replace('_R1_001.fastq.gz', '').strip())
 
-print samples
+#print samples
 
 # Setup folders and paths variables:
 resultsDir = '01-Cleaned'
@@ -115,7 +115,7 @@ for sample in samples:
                     "2>>", logFile])
     log(cmd, logCommands)
     os.system(cmd)
-'''
+
     #merge and sort
     cmd = ' '.join(['cat', jp(bamFolder, sample + "_PE.sam"), '>', jp(bamFolder, sample + ".sam")])
     log(cmd, logCommands)
@@ -131,7 +131,7 @@ for sample in samples:
     cmd = ' '.join(['samtools index', jp(bamFolder, sample) + ".bam"])
     log(cmd, logCommands)
     os.system(cmd)
-
+'''
     gatkCall += ' -I ' + jp(bamFolder, sample) + ".bam"
     logCommands.close()
 
