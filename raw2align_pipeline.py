@@ -75,7 +75,7 @@ for sample in samples:
     log(cmd, logCommands)
     os.system(cmd)
 
-'''
+
     # Combine SE files:
     cmd = ' '.join(['cat', jp(resultsDir, sample + '_sickle_SE.fastq'), jp(resultsDir, sample + '_flash.extendedFrags.fastq'),
                     '>', jp(resultsDir, sample + "_cleaned_SE.fastq")])
@@ -99,7 +99,7 @@ for sample in samples:
     cmd = ' '.join(['gzip', jp(resultsDir, '*.fastq')])
     log(cmd, logCommands)
     os.system(cmd)
-
+'''
     # Run BWA to map samples, combine sam files, sort
     logFile = jp(bamFolder, sample + '_mapping.log')
     cmd = ' '.join(["bwa mem -t 4 -R '@RG\tID:bwa\tSM:" + sample + "\tPL:ILLUMINA'",
