@@ -70,7 +70,7 @@ for sample in samples:
     # Third run flash2
     # the --max-overlap was set to 600, but that seems really long; default is 65, try 400
     # --max-overlap 400 --min-overlap 15 --max-mismatch-density .10 --min-overlap-outie 35 --percent-cutoff 25
-    cmd = ' '.join(['flash2  --allow-outies --threads 7 -o', sample + '_flash',
+    cmd = ' '.join(['flash2 --max-overlap 150 --allow-outies --threads 7 -o', sample + '_flash',
                     '-d', resultsDir, jp(resultsDir, sample + '_sickle_PE1.fastq'), jp(resultsDir, sample + '_sickle_PE2.fastq'),
                      '>>', logFile, '2>&1'])
     log(cmd, logCommands)
@@ -132,9 +132,14 @@ for sample in samples:
     log(cmd, logCommands)
     os.system(cmd)
 
-    gatkCall += ' -I ' + jp(bamFolder, sample) + ".bam"
-    logCommands.close()
+    #gatkCall += ' -I ' + jp(bamFolder, sample) + ".bam"
+    #logCommands.close()
 
+	#Call SNPs with GATK
+	cmd = ' '.join([gatkCall,  ' -I ' + jp(bamFolder, sample) + ".bam", ' -o ' + jp(variantFolder, sample) + ".raw.variants.vcf"
+    log(cmd, logCommands)
+    os.system(cmd)
+    
 '''
 gatkCall += ' -o output.raw.variants.vcf'
 
