@@ -91,7 +91,7 @@ for sample in samples:
     os.system(cmd)
 
     # Clean up intermediary files:
-    cmd = ' '.join(['rm', jp(resultsDir, sample + "_sickle*"), jp(resultsDir, sample + "_flash.extendedFrags.fastq")])
+    cmd = ' '.join(['rm', jp(resultsDir, sample + "_sd*"), jp(resultsDir, sample + "_sickle*"), jp(resultsDir, sample + "_flash.extendedFrags.fastq")])
     log(cmd, logCommands)
     os.system(cmd)
 
