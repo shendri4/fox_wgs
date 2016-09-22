@@ -131,15 +131,17 @@ for sample in samples:
     cmd = ' '.join(['samtools index', jp(bamFolder, sample) + ".bam"])
     log(cmd, logCommands)
     os.system(cmd)
-'''
+
     gatkCall += ' -I ' + jp(bamFolder, sample) + ".bam"
     logCommands.close()
 
+'''
 gatkCall += ' -o output.raw.variants.vcf'
 
 print "Now call gatk with:\n"+gatkCall
 with open("run_gatk.sh", 'w') as outf:
     outf.write(gatkCall + '\n')
+    
 # Clean up sam files:
 cmd = ' '.join(['rm', jp(bamFolder, "*.sam")])
 os.system(cmd)
