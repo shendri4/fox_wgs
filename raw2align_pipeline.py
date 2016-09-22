@@ -39,7 +39,9 @@ os.system('mkdir -p %s' % variantFolder)
 
 
 ## Read in samples and put them in a list:
-cmd = ' '.join(['ls -l', jp(rawdataDir, '*_R1_001.fastq.gz'), '| awk "{print $9}" > samples.txt'])
+#cmd = ' '.join(['ls -l', jp(rawdataDir, '*_R1_001.fastq.gz'), '| awk "{print $9}" > samples.txt'])
+os.system('ls *_R1_001.fastq.gz > samples.txt')
+
 samples = []
 for l in open('samples.txt'):
     if len(l) > 1:
