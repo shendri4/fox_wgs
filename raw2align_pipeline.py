@@ -136,7 +136,9 @@ for sample in samples:
     #logCommands.close()
 
 	#Call SNPs with GATK
-	cmd = ' '.join([gatkCall,  ' -I ' + jp(bamFolder, sample) + ".bam", ' -o ' + jp(variantFolder, sample) + ".raw.variants.vcf"
+	logFile = jp(variantFolder, sample + '_GATK.log')
+	cmd = ' '.join([gatkCall,  ' -I ' + jp(bamFolder, sample) + ".bam", 
+				' -o ' + jp(variantFolder, sample) + ".raw.variants.vcf", '>>', logFile, '2>&1'])
     log(cmd, logCommands)
     os.system(cmd)
     
