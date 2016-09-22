@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #import argparse
 #from glob import glob
+#Usage: PATH/raw2align_pipeline.py <PATH2rawdata>
 '''
 Make sure to load:
 module load python/2.7.10
@@ -11,6 +12,7 @@ module load samtools
 
 from os.path import join as jp
 import os
+import sys
 
 VERBOSE=False
 
@@ -33,7 +35,7 @@ resultsDir = '01-Cleaned'
 bamFolder = '02-Mapped'
 variantFolder = '03-Calls'
 #gatkPath = '/opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar'
-rawdataDir = '/mnt/lfs2/hend6746/fox_cancer/0rawdata_test'
+rawdataDir = str(sys.argv[1])
 bwaIndex = '/mnt/lfs2/hend6746/wolves/reference/canfam31/canfam31.fa'
 #gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s -T HaplotypeCaller' % bwaIndex
 os.system('mkdir -p %s' % resultsDir)
