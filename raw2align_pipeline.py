@@ -26,7 +26,7 @@ def log(txt, out):
 samples = []
 for l in open('samples.txt'):
     if len(l) > 1:
-        samples.append(l.split('/')[-1].replace('_R1_001.fastq.gz', '').strip())
+        samples.append(l.split('/')[-1].replace('_R1.fq.gz', '').strip())
 
 
 # Setup folders and paths variables:
@@ -34,7 +34,7 @@ resultsDir = '01-Cleaned'
 bamFolder = '02-Mapped'
 variantFolder = '03-Calls'
 #gatkPath = '/opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar'
-rawdataDir = '/mnt/lfs2/hend6746/fox_cancer/0rawdata'
+rawdataDir = '/mnt/lfs2/hend6746/fox_cancer/fox_JAR'
 bwaIndex = '/mnt/lfs2/hend6746/wolves/reference/canfam31/canfam31.fa'
 #gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s -T HaplotypeCaller' % bwaIndex
 os.system('mkdir -p %s' % resultsDir)
