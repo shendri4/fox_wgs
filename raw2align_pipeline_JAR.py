@@ -50,8 +50,8 @@ for sample in samples:
 
     # First run superdeduper
     # David said don't run the compression (16Sep21)
-    cmd = ' '.join(['super_deduper -1', jp(rawdataDir, sample + '_R1_001.fastq.gz'),
-                    '-2', jp(rawdataDir, sample + '_R2_001.fastq.gz'), '-p', jp(resultsDir, sample + '_sd'),
+    cmd = ' '.join(['super_deduper -1', jp(rawdataDir, sample + '_R1.fq.gz'),
+                    '-2', jp(rawdataDir, sample + '_R2.fq.gz'), '-p', jp(resultsDir, sample + '_sd'),
                     '>>', logFile, '2>&1'])
     log(cmd, logCommands)
     os.system(cmd)
