@@ -27,7 +27,7 @@ for l in open('samples.txt'):
 rawdataDir = '/mnt/lfs2/hend6746/fox_cancer/01rawdata_test'
 cleandataDir = '01-Cleaned'
 bamFolder = '02-Mapped'
-resultsDir = '/mnt/lfs2/hend6746/fox_cancer/fastqc_test'
+resultsDir = '/mnt/lfs2/hend6746/fox_cancer/01rawdata_test/fastqc_test'
 os.system('mkdir -p %s' % resultsDir)
 
 
