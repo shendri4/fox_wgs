@@ -10,6 +10,7 @@ module load samtools
 '''
 
 from os.path import join as jp
+from os.path import abspath
 import os
 import sys
 import argparse
@@ -45,12 +46,12 @@ for l in open(args.samples):
 #bwaIndex = '/mnt/lfs2/hend6746/wolves/reference/canfam31/canfam31.fa'
 #gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s -T HaplotypeCaller' % bwaIndex
 
-resultsDir = '01-Cleaned'
-bamFolder = '02-Mapped'
-variantFolder = '03-Calls'
-PBS_scripts = 'PBS_scripts'
-rawdataDir = args.rawdata
-bwaIndex = args.bwaindex
+resultsDir = abspath('01-Cleaned')
+bamFolder = abspath('02-Mapped')
+variantFolder = abspath('03-Calls')
+PBS_scripts = abspath('PBS_scripts')
+rawdataDir = abspath(args.rawdata)
+bwaIndex = abspath(args.bwaindex)
 
 os.system('mkdir -p %s' % resultsDir)
 os.system('mkdir -p %s' % bamFolder)
