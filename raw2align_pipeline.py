@@ -48,19 +48,35 @@ for l in open(args.samples):
 resultsDir = '01-Cleaned'
 bamFolder = '02-Mapped'
 variantFolder = '03-Calls'
+PBS_scripts = 'PBS_scripts'
 rawdataDir = args.rawdata
 bwaIndex = args.bwaindex
 
 os.system('mkdir -p %s' % resultsDir)
 os.system('mkdir -p %s' % bamFolder)
 os.system('mkdir -p %s' % variantFolder)
+os.system('mkdir -p %s' % PBS_scripts)
 
 ##### Run pipeline ###
 for sample in samples:
     print "Processing", sample, "....."
     # Set up files:
     logFile = jp(resultsDir, sample + '_cleaning.log')
-    logCommands = open(jp(resultsDir, sample + '_commands.log'), 'w')
+    logCommands = open(jp(PBS_scripts, sample + '_commands.sh'), 'w')
+
+    #Setup for qsub
+    log('#!/bin/bash')
+    log('#PBS -N sleep')
+    log('#PBS -j oe')
+    log('#PBS -o %s_job.log' % sample)
+    log('#PBS -m abe')
+    log('#PBS -M shendri4@gmail.com')
+    log('#PBS -q reg')
+    log(". /usr/modules/init/bash")
+    log("module load python/2.7.10")
+    log("module load bwa")
+    log("module load grc")
+    log("module load samtools")
 
     # First run superdeduper
     # David said don't run the compression (16Sep21)
