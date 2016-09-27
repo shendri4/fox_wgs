@@ -34,6 +34,7 @@ os.system('mkdir -p %s' % resultsDir)
 ##### Run pipeline ###
 for sample in samples:
     print "Processing", sample, "....."
+    print samples
     # Set up files:
     logFile = jp(resultsDir, sample + '_cleaning.log')
     logCommands = open(jp(resultsDir, sample + '_commands.log'), 'w')
