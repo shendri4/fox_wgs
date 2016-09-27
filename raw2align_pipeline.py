@@ -165,5 +165,6 @@ for sample in samples:
 
     # Clean up sam files:
     cmd = ' '.join(['rm', jp(bamFolder, "*.sam")])
+    log(cmd, logCommands)
     #os.system(cmd)
     logCommands.close()
