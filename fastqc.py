@@ -24,17 +24,16 @@ for l in open('samples.txt'):
         samples.append(l.split('/')[-1].replace('_R1_001.fastq.gz', '').strip())
 
 # Setup folders and paths variables:
-rawdataDir = '/mnt/lfs2/hend6746/fox_cancer/01rawdata_test'
+rawdataDir = '/mnt/lfs2/hend6746/fox_cancer/0rawdata_test'
 cleandataDir = '01-Cleaned'
 bamFolder = '02-Mapped'
-resultsDir = '/mnt/lfs2/hend6746/fox_cancer/01rawdata_test/fastqc_test'
+resultsDir = '/mnt/lfs2/hend6746/fox_cancer/0rawdata_test/fastqc_test'
 os.system('mkdir -p %s' % resultsDir)
 
 
 ##### Run pipeline ###
 for sample in samples:
     print "Processing", sample, "....."
-    print samples
     # Set up files:
     logFile = jp(resultsDir, sample + '_cleaning.log')
     logCommands = open(jp(resultsDir, sample + '_commands.log'), 'w')
