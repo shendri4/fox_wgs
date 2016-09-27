@@ -33,9 +33,19 @@ os.system('mkdir -p %s' % resultsDir)
 
 ##### Run pipeline ###
 for sample in samples:
+    print "Processing", sample, "....."
+    # Set up files:
+    logFile = jp(resultsDir, sample + '_cleaning.log')
+    logCommands = open(jp(resultsDir, sample + '_commands.log'), 'w')
+
     #raw
-    cmd = ' '.join(['fastqc', '--outdir', resultsDir, '--format', fastq, jp(rawdataDir, sample + '_R1_001.fastq.gz')]) 
-    cmd = ' '.join(['fastqc', '--outdir', resultsDir, '--format', fastq, jp(rawdataDir, sample + '_R2_001.fastq.gz')])
+    cmd = ' '.join(['fastqc', '--outdir', resultsDir, '--format fastq', jp(rawdataDir, sample + '_R1_001.fastq.gz'), '>>', logFile, '2>&1']) 
+    os.system(cmd)
+    logCommands.close()
+    
+    cmd = ' '.join(['fastqc', '--outdir', resultsDir, '--format fastq', jp(rawdataDir, sample + '_R2_001.fastq.gz'), '>>', logFile, '2>&1'])
+    os.system(cmd)
+    logCommands.close()
 '''    
     #cleaned
     cmd = ' '.join(['fastqc', '--outdir', resultsDir, '--format', fastq, jp(cleandataDir, sample + '_cleaned_PE1.fastq.gz')]) 
