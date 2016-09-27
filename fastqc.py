@@ -21,7 +21,7 @@ def log(txt, out):
 samples = []
 for l in open('samples.txt'):
     if len(l) > 1:
-        samples.append(l.split('/')[-1].replace('_R1.fq.gz', '').strip())
+        samples.append(l.split('/')[-1].replace('_R1_001.fastq.gz', '').strip())
 
 # Setup folders and paths variables:
 rawdataDir = '/mnt/lfs2/hend6746/fox_cancer/01rawdata_test'
