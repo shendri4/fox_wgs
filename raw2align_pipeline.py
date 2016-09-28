@@ -88,23 +88,25 @@ for sample in samples:
     log(cmd, logCommands)
     #os.system(cmd)
 
-    # Second run sickle
-    #The --length-threshold was set to 200, but that seems really long; default is 20
-    cmd = ' '.join(['sickle pe --length-threshold 20 --qual-threshold 25 --qual-type sanger -f', jp(resultsDir, sample + '_sd_nodup_PE1.fastq'),
-                    '-r', jp(resultsDir, sample + '_sd_nodup_PE2.fastq'),
-                    '--output-pe1', jp(resultsDir, sample + '_sickle_PE1.fastq'),
-                    '--output-pe2', jp(resultsDir, sample + '_sickle_PE2.fastq'),
-                    '--output-single', jp(resultsDir, sample + '_sickle_SE.fastq'), '>>', logFile, '2>&1'])
+
+    # Second run flash2
+    # the --max-overlap was set to 600, but that seems really long; default is 65, try 400
+    # --max-overlap 400 --min-overlap 15 --max-mismatch-density .10 --min-overlap-outie 35 --percent-cutoff 25
+    cmd = ' '.join(['flash2 --max-overlap 150 --allow-outies --threads 7 -o', sample + '_flash',
+                    '-d', resultsDir, jp(resultsDir, sample + '_sd_nodup_PE1.fastq'), jp(resultsDir, sample + '_sd_nodup_PE2.fastq'),
+#                    '-d', resultsDir, jp(resultsDir, sample + '_sickle_PE1.fastq'), jp(resultsDir, sample + '_sickle_PE2.fastq'),
+                     '>>', logFile, '2>&1'])
     log(cmd, logCommands)
     #os.system(cmd)
 
 
-    # Third run flash2
-    # the --max-overlap was set to 600, but that seems really long; default is 65, try 400
-    # --max-overlap 400 --min-overlap 15 --max-mismatch-density .10 --min-overlap-outie 35 --percent-cutoff 25
-    cmd = ' '.join(['flash2 --max-overlap 150 --allow-outies --threads 7 -o', sample + '_flash',
-                    '-d', resultsDir, jp(resultsDir, sample + '_sickle_PE1.fastq'), jp(resultsDir, sample + '_sickle_PE2.fastq'),
-                     '>>', logFile, '2>&1'])
+    # Third run sickle
+    #The --length-threshold was set to 200, but that seems really long; default is 20
+    cmd = ' '.join(['sickle pe --length-threshold 20 --qual-threshold 25 --qual-type sanger -f', jp(resultsDir, sample + '_flash.notCombined_1.fastq'),
+                    '-r', jp(resultsDir, sample + '_flash.notCombined_2.fastq'),
+                    '--output-pe1', jp(resultsDir, sample + '_sickle_PE1.fastq'),
+                    '--output-pe2', jp(resultsDir, sample + '_sickle_PE2.fastq'),
+                    '--output-single', jp(resultsDir, sample + '_sickle_SE.fastq'), '>>', logFile, '2>&1'])
     log(cmd, logCommands)
     #os.system(cmd)
 
@@ -116,10 +118,10 @@ for sample in samples:
     #os.system(cmd)
 
     # Rename PE and SE files to something nicer:
-    cmd = ' '.join(['mv', jp(resultsDir, sample + "_flash.notCombined_1.fastq"), jp(resultsDir, sample + "_cleaned_PE1.fastq")])
+    cmd = ' '.join(['mv', jp(resultsDir, sample + "_sickle_PE1.fastq"), jp(resultsDir, sample + "_cleaned_PE1.fastq")])
     log(cmd, logCommands)
     #os.system(cmd)
-    cmd = ' '.join(['mv', jp(resultsDir, sample + "_flash.notCombined_2.fastq"), jp(resultsDir, sample + "_cleaned_PE2.fastq")])
+    cmd = ' '.join(['mv', jp(resultsDir, sample + "_sickle_PE2.fastq"), jp(resultsDir, sample + "_cleaned_PE2.fastq")])
     log(cmd, logCommands)
     #os.system(cmd)
 
@@ -136,13 +138,13 @@ for sample in samples:
     # Run BWA to map samples, combine sam files, sort
     # -t number of threads -R read group header
     logFile = jp(bamFolder, sample + '_mapping.log')
-    cmd = ' '.join(["bwa mem -t 4 -R '@RG\tID:bwa\tSM:" + sample + "\tPL:ILLUMINA'",
+    cmd = ' '.join(["bwa mem -t 16 -R '@RG\tID:bwa\tSM:" + sample + "\tPL:ILLUMINA'",
                     bwaIndex, jp(resultsDir, sample + "_cleaned_PE1.fastq.gz"),
                     jp(resultsDir, sample + "_cleaned_PE2.fastq.gz"), ">", jp(bamFolder, sample + "_PE.sam"),
                     "2>", logFile])
     log(cmd, logCommands)
     #os.system(cmd)
-    cmd = ' '.join(["bwa mem -t 4 -R '@RG\tID:bwa\tSM:" + sample + "\tPL:ILLUMINA'",
+    cmd = ' '.join(["bwa mem -t 16 -R '@RG\tID:bwa\tSM:" + sample + "\tPL:ILLUMINA'",
                     bwaIndex, jp(resultsDir, sample + "_cleaned_SE.fastq.gz"), ">>", jp(bamFolder, sample + "_SE.sam"),
                     "2>>", logFile])
     log(cmd, logCommands)
@@ -168,4 +170,5 @@ for sample in samples:
     cmd = ' '.join(['rm', jp(bamFolder, "*.sam")])
     log(cmd, logCommands)
     #os.system(cmd)
+   
     logCommands.close()
