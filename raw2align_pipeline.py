@@ -72,7 +72,7 @@ for sample in samples:
     log('#PBS -o %s_job.log' % sample, logCommands)
     log('#PBS -m abe', logCommands)
     log('#PBS -M shendri4@gmail.com', logCommands)
-    log('#PBS -q reg', logCommands)
+    log('#PBS -q short', logCommands)
     log('#PBS -l mem=100000', logCommands)
     log(". /usr/modules/init/bash", logCommands)
     log("module load python/2.7.10", logCommands)
@@ -124,8 +124,8 @@ for sample in samples:
     #os.system(cmd)
 
     # Clean up intermediary files:
-    cmd = ' '.join(['rm', jp(resultsDir, sample + "_sd*"), jp(resultsDir, sample + "_sickle*"), jp(resultsDir, sample + "_flash.extendedFrags.fastq")])
-    log(cmd, logCommands)
+    #cmd = ' '.join(['rm', jp(resultsDir, sample + "_sd*"), jp(resultsDir, sample + "_sickle*"), jp(resultsDir, sample + "_flash.extendedFrags.fastq")])
+    #log(cmd, logCommands)
     #os.system(cmd)
 
     # Compress cleaned files:
