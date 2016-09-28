@@ -73,7 +73,7 @@ for sample in samples:
     log('#PBS -m abe', logCommands)
     log('#PBS -M shendri4@gmail.com', logCommands)
     log('#PBS -q reg', logCommands)
-    log('#PBS -l mem=80000', logCommands)
+    log('#PBS -l mem=100000', logCommands)
     log(". /usr/modules/init/bash", logCommands)
     log("module load python/2.7.10", logCommands)
     log("module load bwa", logCommands)
