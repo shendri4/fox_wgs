@@ -67,12 +67,13 @@ for sample in samples:
 
     #Setup for qsub
     log('#!/bin/bash', logCommands)
-    log('#PBS -N sleep', logCommands)
+    log('#PBS -N %s' % sample, logCommands)
     log('#PBS -j oe', logCommands)
     log('#PBS -o %s_job.log' % sample, logCommands)
     log('#PBS -m abe', logCommands)
     log('#PBS -M shendri4@gmail.com', logCommands)
     log('#PBS -q reg', logCommands)
+    log('#PBS -l mem=80000')
     log(". /usr/modules/init/bash", logCommands)
     log("module load python/2.7.10", logCommands)
     log("module load bwa", logCommands)
