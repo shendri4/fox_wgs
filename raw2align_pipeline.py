@@ -1,13 +1,6 @@
 #!/usr/bin/env python
 #import argparse
 #from glob import glob
-'''
-Make sure to load:
-module load python/2.7.10
-module load bwa
-module load grc
-module load samtools
-'''
 
 from os.path import join as jp
 from os.path import abspath
@@ -40,18 +33,14 @@ for l in open(args.samples):
 
 
 # Setup folders and paths variables:
-# Read in config file and set variables:
-#gatkPath = '/opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar'
-#rawdataDir = '/mnt/lfs2/hend6746/fox_cancer/0rawdata'
-#bwaIndex = '/mnt/lfs2/hend6746/wolves/reference/canfam31/canfam31.fa'
-#gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s -T HaplotypeCaller' % bwaIndex
-
 resultsDir = abspath('01-Cleaned')
 bamFolder = abspath('02-Mapped')
 variantFolder = abspath('03-Calls')
 PBS_scripts = abspath('PBS_scripts')
 rawdataDir = abspath(args.rawdata)
 bwaIndex = abspath(args.bwaindex)
+gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s ' % bwaIndex
+
 
 os.system('mkdir -p %s' % resultsDir)
 os.system('mkdir -p %s' % bamFolder)
@@ -95,7 +84,7 @@ for sample in samples:
     cmd = ' '.join(['flash2 --max-overlap 150 --allow-outies --threads 7 -o', sample + '_flash',
                     '-d', resultsDir, jp(resultsDir, sample + '_sd_nodup_PE1.fastq'), jp(resultsDir, sample + '_sd_nodup_PE2.fastq'),
 #                    '-d', resultsDir, jp(resultsDir, sample + '_sickle_PE1.fastq'), jp(resultsDir, sample + '_sickle_PE2.fastq'),
-                     '>>', logFile, '2>&1'])
+                    '>>', logFile, '2>&1'])
     log(cmd, logCommands)
     #os.system(cmd)
 
@@ -170,5 +159,10 @@ for sample in samples:
     cmd = ' '.join(['rm', jp(bamFolder, "*.sam")])
     log(cmd, logCommands)
     #os.system(cmd)
+    
+    #Depth of coverage using GATK
+    cmd = ' '.join([gatkCall,  ' -T DepthOfCoverage ', ' -I ' + jp(bamFolder, sample) + ".bam", 
+                     ' -o ' + jp(variantFolder, sample), '>>', logFile, '2>&1'])
+    log(cmd, logCommands)
    
     logCommands.close()
