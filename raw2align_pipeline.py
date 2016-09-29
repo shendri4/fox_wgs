@@ -39,7 +39,7 @@ variantFolder = abspath('03-Calls')
 PBS_scripts = abspath('PBS_scripts')
 rawdataDir = abspath(args.rawdata)
 bwaIndex = abspath(args.bwaindex)
-gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s ' % bwaIndex
+#gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s ' % bwaIndex
 
 
 os.system('mkdir -p %s' % resultsDir)
@@ -160,9 +160,4 @@ for sample in samples:
     log(cmd, logCommands)
     #os.system(cmd)
     
-    #Depth of coverage using GATK
-    cmd = ' '.join([gatkCall,  ' -T DepthOfCoverage ', ' -I ' + jp(bamFolder, sample) + ".bam", 
-                     ' -o ' + jp(variantFolder, sample), '>>', logFile, '2>&1'])
-    log(cmd, logCommands)
-   
     logCommands.close()
