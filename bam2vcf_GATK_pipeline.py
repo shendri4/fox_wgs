@@ -70,12 +70,4 @@ for sample in samples:
     #os.system(cmd)
     
     
-logCommands = open(jp(PBS_scripts, sample + '_commands.sh'), 'w')
-cmd = ' '.join(['variant = [for sample in samples:', '--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'']'])
-#print variant
-###########Joint Genotyping
-#    cmd = ' '.join([gatkCall,  ' -T GenotypeGVCFs ', variant, ' -o ' + jp(variantFolder, sample) + 'raw.variants.vcf', '>>', logFile, '2>&1'])
-log(cmd, logCommands)
-#os.system(cmd)
-    
 logCommands.close()
