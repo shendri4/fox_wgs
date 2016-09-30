@@ -63,15 +63,14 @@ variants = []
 for l in samples:
 	if len(l) > 1:
 		variants.append(l.join(['--variant' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
-#		line=line.strip('\n')
-#		lineList=line.split('\t')
 
-cmd = print samples
-log(cmd, logCommands)
+
+#cmd = print samples
+#log(cmd, logCommands)
 
 #+ jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'
 ###########Joint Genotyping
-cmd = ' '.join([gatkCall,  ' -T GenotypeGVCFs ', variant, ' -o ' + jp(variantFolder, sample) + 'raw.variants.vcf', '>>', logFile, '2>&1'])
-log(cmd, logCommands)
+#cmd = ' '.join([gatkCall,  ' -T GenotypeGVCFs ', variant, ' -o ' + jp(variantFolder, sample) + 'raw.variants.vcf', '>>', logFile, '2>&1'])
+#log(cmd, logCommands)
 #os.system(cmd)
 logCommands.close()
