@@ -70,10 +70,11 @@ for sample in samples:
     #os.system(cmd)
     
 for sample in samples:
-    variant = '--variant sample' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'
+    variant = '--variant' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'
     print variant
     ###########Joint Genotyping
-    cmd = ' '.join([gatkCall,  ' -T GenotypeGVCFs ', variant, ' -o ' + jp(variantFolder, sample) + 'raw.variants.vcf', '>>', logFile, '2>&1'])
+#    cmd = ' '.join([gatkCall,  ' -T GenotypeGVCFs ', variant, ' -o ' + jp(variantFolder, sample) + 'raw.variants.vcf', '>>', logFile, '2>&1'])
     log(cmd, logCommands)
+    #os.system(cmd)
     
     logCommands.close()
