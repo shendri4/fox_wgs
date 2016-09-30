@@ -60,10 +60,6 @@ for sample in samples:
     log("module load python/2.7.10", logCommands)
     log("module load grc", logCommands)
 
-##### Run pipeline ###
-for sample in samples:
-    print "Processing", sample, "....."
-
     ###########Per-Sample Variant Calling
     #HaplotypeCaller on each sample BAM file 
     #(if a sample's data is spread over more than one BAM, then pass them all in together) to create single-sample gVCFs
