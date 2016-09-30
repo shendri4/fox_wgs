@@ -71,56 +71,7 @@ for sample in samples:
     cmd = ' '.join([gatkCall,  ' -T HaplotypeCaller ', ' -I ' + jp(bamFolder, sample) + '.bam', ' --emitRefConfidence GVCF ', ' -o ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf', '>>', logFile, '2>&1'])
     log(cmd, logCommands)
     #os.system(cmd)
+    #os.system(cmd)
+    
     logCommands.close()
     
-    '''
-    #indel realignment is no longer necessary for variant discovery if you plan to use a variant caller 
-    #that performs a haplotype assembly step, such as HaplotypeCaller
-    #RealignerTargetCreator
-    cmd = ' '.join([gatkCall,  '-T RealignerTargetCreator', ' -I ' + jp(bamFolder, sample) + ".bam", 
-                    ' -o ' + jp(bamFolder, sample) + ".RealignerTargetCreator.intervals", '>>', logFile, '2>&1'])
-    log(cmd, logCommands)
-    #os.system(cmd)
-    
-    #Realignment Around Indels
-    cmd = ' '.join([gatkCall, '-T IndelRealigner', ' -I ' + jp(bamFolder, sample) + ".bam", 
-                    ' -o ' + jp(bamFolder, sample) + ".realign.bam", 
-                    ' -targetIntervals '  + jp(bamFolder, sample) + ".RealignerTargetCreator.intervals" 
-                    '>>', logFile, '2>&1'])
-    log(cmd, logCommands)
-    #os.system(cmd)
-
-    #Base Quality Score Recalibration
-    cmd = ' '.join([gatkCall,  ' -I ' + jp(bamFolder, sample) + ".bam", 
-                    ' -o ' + jp(variantFolder, sample) + ".raw.variants.vcf", '>>', logFile, '2>&1'])
-    log(cmd, logCommands)
-    #os.system(cmd)
-'''
-'''
-for i in samples; do variant=--variant $i;    
-    ###########Joint Genotyping
-    cmd = ' '.join(['for i in samples; do variant=--variant $i;', gatkCall,  ' -T GenotypeGVCFs ', ' ${variant} ' + jp(variantFolder, sample) + ".raw.snps.indels.g.vcf", 
-                    ' -o ' + jp(variantFolder, sample) + "raw.variants.vcf", '>>', logFile, '2>&1'])
-    log(cmd, logCommands)
-    #os.system(cmd)
-
-    ############Variant Quality Score Recalibration
-    #SNPs
-    cmd = ' '.join([gatkCall,  ' -T VariantRecalibrator ', ' -I ' + jp(variantFolder, sample) + "raw.variants.vcf",
-                    ' -resource:????????????????? '
-                    ' -an QD -an MQ -an MQRankSum -an ReadPosRankSum -an FS -an SOR -an InbreedingCoeff ', 
-                    ' -mode SNP ', ' -recalFile output.recal ', ' -tranchesFile output.tranches ', ' -rscriptFile output.plots.R ', '>>', logFile, '2>&1'])
-    log(cmd, logCommands)
-    #os.system(cmd)
-    
-    #Indels
-    cmd = ' '.join([gatkCall,  ' -T VariantRecalibrator ', ' -I ' + jp(variantFolder, sample) + "raw.variants.vcf",
-                	' -resource:????????????????? '
-                    ' -an QD -an MQ -an MQRankSum -an ReadPosRankSum -an FS -an SOR -an InbreedingCoeff ', 
-                    ' -mode INDEL ', ' -recalFile output.recal ', ' -tranchesFile output.tranches ', ' -rscriptFile output.plots.R ', '>>', logFile, '2>&1'])
-    log(cmd, logCommands)
-    #os.system(cmd)
-    
-##### Merge all bam files
-#cmd = ' '.join(['samtools merge', jp(bamFolder, "*.bam")])
-'''
