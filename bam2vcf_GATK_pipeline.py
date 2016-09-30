@@ -12,6 +12,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-s', "--samples", help="Samples.txt file with sample ID.", required=True)
 parser.add_argument('-b', "--bwaindex", help="Path to bwa index file.", required=True)
 args = parser.parse_args()
+#args = parser.parse_args('-s samples.txt -r /mnt/lfs2/hend6746/fox_cancer/0rawdata_test -b /mnt/lfs2/hend6746/wolves/reference/canfam31/canfam31.fa'.split())
 
 VERBOSE=False
 
@@ -68,9 +69,10 @@ for sample in samples:
     log(cmd, logCommands)
     #os.system(cmd)
     
-for i in samples: do variant=--variant $i;    
+for sample in samples:
+    variant = '--variant sample' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'    
     ###########Joint Genotyping
-    cmd = ' '.join([gatkCall,  ' -T GenotypeGVCFs ', $variant, ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf', ' -o ' + jp(variantFolder, sample) + 'raw.variants.vcf', '>>', logFile, '2>&1'])
+    cmd = ' '.join([gatkCall,  ' -T GenotypeGVCFs ', variant, ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf', ' -o ' + jp(variantFolder, sample) + 'raw.variants.vcf', '>>', logFile, '2>&1'])
     #log(cmd, logCommands)
     #os.system(cmd)
     
