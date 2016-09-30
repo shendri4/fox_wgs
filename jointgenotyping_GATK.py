@@ -70,4 +70,6 @@ for l in samples:
 #cmd = ' '.join([gatkCall, ' -T GenotypeGVCFs ', variants, ' -o ' + jp(variantFolder) + 'joint.variants.vcf', '>>', logFile, '2>&1'])
 #log(cmd, logCommands)
 #os.system(cmd)
+    
+    
 logCommands.close()
