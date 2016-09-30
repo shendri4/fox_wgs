@@ -59,13 +59,12 @@ log(". /usr/modules/init/bash", logCommands)
 log("module load python/2.7.10", logCommands)
 log("module load grc", logCommands)
 
+variants = []
 for sample in samples:
     print "Processing", sample, "....."
-variants = []
-for l in samples:
-#        print sample
-        if len(l) > 1:
-            variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
+    if len(l) > 1:
+        print samples
+        #variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
 
 
 ###########Joint Genotyping
