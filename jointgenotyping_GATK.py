@@ -66,7 +66,7 @@ for sample in samples:
         #print samples
         #variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
         variants.append(samples)
-
+        print variants
 
 ###########Joint Genotyping
 #cmd = ' '.join([gatkCall, ' -T GenotypeGVCFs ', variants, ' -o ' + jp(variantFolder) + 'joint.variants.vcf', '>>', logFile, '2>&1'])
