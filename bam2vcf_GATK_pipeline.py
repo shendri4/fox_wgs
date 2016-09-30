@@ -32,7 +32,7 @@ for l in open(args.samples):
 bamFolder = abspath('02-Mapped')
 variantFolder = abspath('03-Calls')
 PBS_scripts = abspath('GATK_PBS_scripts')
-rawdataDir = abspath(args.rawdata)
+#rawdataDir = abspath(args.rawdata)
 bwaIndex = abspath(args.bwaindex)
 gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s' % bwaIndex
 
