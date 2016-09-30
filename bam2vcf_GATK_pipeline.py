@@ -71,7 +71,7 @@ for sample in samples:
     cmd = ' '.join([gatkCall,  ' -T HaplotypeCaller ', ' -I ' + jp(bamFolder, sample) + '.bam', ' --emitRefConfidence GVCF ', ' -o ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf', '>>', logFile, '2>&1'])
     log(cmd, logCommands)
     #os.system(cmd)
-    logCommands.close()
+#    logCommands.close()
     
     '''
     #indel realignment is no longer necessary for variant discovery if you plan to use a variant caller 
