@@ -58,7 +58,7 @@ log('#PBS -l mem=100000', logCommands)
 log(". /usr/modules/init/bash", logCommands)
 log("module load python/2.7.10", logCommands)
 log("module load grc", logCommands)
-
+'''
 variants = []
 for l in samples:
     if len(l) > 1:
@@ -70,6 +70,6 @@ for l in samples:
 #cmd = ' '.join([gatkCall, ' -T GenotypeGVCFs ', variants, ' -o ' + jp(variantFolder) + 'joint.variants.vcf', '>>', logFile, '2>&1'])
 #log(cmd, logCommands)
 #os.system(cmd)
-    
+'''    
     
 logCommands.close()
