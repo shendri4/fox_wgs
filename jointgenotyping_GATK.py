@@ -61,11 +61,10 @@ log("module load grc", logCommands)
 
 variants = []
 for l in samples:
-	if len(l) > 1:
-		variants.append(l.join(['--variant' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
+    if len(l) > 1:
+        variants.append(l.join(['--variant' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
 
-
-#cmd = print samples
+print variants
 #log(cmd, logCommands)
 
 #+ jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'
