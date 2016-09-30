@@ -61,7 +61,9 @@ log("module load grc", logCommands)
 
 variants = []
 for sample in samples:
+    sample=sample.jp(sample) + '.raw.snps.indels.g.vcf'
     print "Processing", sample, "....."
+
 if samples > 1:
         #print samples
         #variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
