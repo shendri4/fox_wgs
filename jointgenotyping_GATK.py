@@ -59,8 +59,8 @@ log(". /usr/modules/init/bash", logCommands)
 log("module load python/2.7.10", logCommands)
 log("module load grc", logCommands)
 
-# for sample in samples:
-#     print "Processing", sample, "....."
+for sample in samples:
+    print "Processing", sample, "....."
 #     variants = []
 #     for l in samples:
 #         if len(l) > 1:
