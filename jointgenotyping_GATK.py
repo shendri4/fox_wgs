@@ -61,7 +61,7 @@ log("module load grc", logCommands)
 
 variants = []
 for sample in samples:
-    sample.join[(sample) + '.raw.snps.indels.g.vcf']
+    ' '.join([sample + '.raw.snps.indels.g.vcf'])
     print "Processing", sample, "....."
 
 if samples > 1:
