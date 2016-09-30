@@ -66,7 +66,6 @@ for sample in samples:
 #        print samples
         if len(l) > 1:
             variants=variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
-        print variants
 
 
 ###########Joint Genotyping
