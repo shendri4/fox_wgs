@@ -68,7 +68,7 @@ for sample in samples:
 variantList = ', '.join(str(x) for x in variants)
 print variantList
 ###########Joint Genotyping
-cmd = ' '.join([gatkCall, ' -T GenotypeGVCFs ', variants, ' -o ' + jp(variantFolder) + 'joint.variants.vcf', '>>', logFile, '2>&1'])
+cmd = ' '.join([gatkCall, ' -T GenotypeGVCFs ', variantList, ' -o ' + jp(variantFolder) + 'joint.variants.vcf', '>>', logFile, '2>&1'])
 log(cmd, logCommands)
 #os.system(cmd)
     
