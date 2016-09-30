@@ -68,12 +68,12 @@ for sample in samples:
     log(cmd, logCommands)
     #os.system(cmd)
     
-#for i in samples; do variant=--variant $i;    
+for i in samples: do variant=--variant $i;    
     ###########Joint Genotyping
-    cmd = ' '.join(['for i in samples; do variant=--variant $i;', gatkCall,  ' -T GenotypeGVCFs ', ' ${variant} ' + jp(variantFolder, sample) + ".raw.snps.indels.g.vcf", 
-                    ' -o ' + jp(variantFolder, sample) + "raw.variants.vcf", '>>', logFile, '2>&1'])
-    log(cmd, logCommands)
+    cmd = ' '.join([gatkCall,  ' -T GenotypeGVCFs ', $variant, ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf', ' -o ' + jp(variantFolder, sample) + 'raw.variants.vcf', '>>', logFile, '2>&1'])
+    #log(cmd, logCommands)
     #os.system(cmd)
     
-    logCommands.close()
+    logCommands.close()    
+
     
