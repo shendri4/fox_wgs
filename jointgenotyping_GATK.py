@@ -63,8 +63,8 @@ variants = []
 for sample in samples:
     print "Processing", sample, "....."
     if samples > 1:
-        print samples;.strip('/n').split('\t')
-        #variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'])
+        print samples
+        #variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
 
 
 ###########Joint Genotyping
