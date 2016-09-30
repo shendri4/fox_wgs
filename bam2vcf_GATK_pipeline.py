@@ -70,7 +70,7 @@ for sample in samples:
     #os.system(cmd)
     
     
-#logCommands = open(jp(PBS_scripts, sample + '_commands.sh'), 'w')
+logCommands = open(jp(PBS_scripts, sample + '_commands.sh'), 'w')
 cmd = ' '.join(['variant = [for sample in samples:', '--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'']'])
 #print variant
 ###########Joint Genotyping
