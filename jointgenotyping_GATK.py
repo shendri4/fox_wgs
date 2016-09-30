@@ -64,11 +64,7 @@ for sample in samples:
     sample = ' '.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'])
     print sample
     variants.append(sample)
-
-#if samples > 1:
-        #print samples
         #variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
-#    variants.append(samples)
 print variants
 
 ###########Joint Genotyping
