@@ -65,7 +65,16 @@ for sample in samples:
 for sample in samples:
     print "Processing", sample, "....."
 
-'''
+    ###########Per-Sample Variant Calling
+    #HaplotypeCaller on each sample BAM file 
+    #(if a sample's data is spread over more than one BAM, then pass them all in together) to create single-sample gVCFs
+    #not recommended for somatic (cancer) variant discovery. For that purpose, use MuTect2 instead
+    cmd = ' '.join([gatkCall,  ' -T HaplotypeCaller ', ' -I ' + jp(bamFolder, sample) + '.bam', ' --emitRefConfidence GVCF ', ' -o ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf', '>>', logFile, '2>&1'])
+    log(cmd, logCommands)
+    #os.system(cmd)
+    logCommands.close()
+    
+    '''
     #indel realignment is no longer necessary for variant discovery if you plan to use a variant caller 
     #that performs a haplotype assembly step, such as HaplotypeCaller
     #RealignerTargetCreator
@@ -88,15 +97,6 @@ for sample in samples:
     log(cmd, logCommands)
     #os.system(cmd)
 '''
-    ###########Per-Sample Variant Calling
-    #HaplotypeCaller on each sample BAM file 
-    #(if a sample's data is spread over more than one BAM, then pass them all in together) to create single-sample gVCFs
-    #not recommended for somatic (cancer) variant discovery. For that purpose, use MuTect2 instead
-    cmd = ' '.join([gatkCall,  ' -T HaplotypeCaller ', ' -I ' + jp(bamFolder, sample) + '.bam', 
-    ' --emitRefConfidence GVCF ', ' -o ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf', '>>', logFile, '2>&1'])
-    log(cmd, logCommands)
-    #os.system(cmd)
-    
 '''
 for i in samples; do variant=--variant $i;    
     ###########Joint Genotyping
