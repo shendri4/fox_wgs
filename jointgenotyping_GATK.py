@@ -48,9 +48,9 @@ logCommands = open(jp(PBS_scripts, 'joint_commands.sh'), 'w')
 
 #Setup for qsub
 log('#!/bin/bash', logCommands)
-log('#PBS -N %s' % sample, logCommands)
+log('#PBS -N joint', logCommands)
 log('#PBS -j oe', logCommands)
-log('#PBS -o %s_job.log' % sample, logCommands)
+log('#PBS -o joint_job.log', logCommands)
 log('#PBS -m abe', logCommands)
 log('#PBS -M shendri4@gmail.com', logCommands)
 log('#PBS -q short', logCommands)
@@ -59,12 +59,13 @@ log(". /usr/modules/init/bash", logCommands)
 log("module load python/2.7.10", logCommands)
 log("module load grc", logCommands)
 '''
-variants = []
-for l in samples:
-    if len(l) > 1:
-        variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
+for sample in samples:
+    print "Processing", sample, "....."
+    variants = []
+    for l in samples:
+        if len(l) > 1:
+            variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
 
-#log(cmd, logCommands)
 
 ###########Joint Genotyping
 #cmd = ' '.join([gatkCall, ' -T GenotypeGVCFs ', variants, ' -o ' + jp(variantFolder) + 'joint.variants.vcf', '>>', logFile, '2>&1'])
