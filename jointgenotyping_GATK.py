@@ -62,9 +62,9 @@ log("module load grc", logCommands)
 variants = []
 for sample in samples:
     print "Processing", sample, "....."
-    if len(l) > 1:
-        #print samples;.strip('/n').split('\t')
-        variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'])
+    if samples > 1:
+        print samples;.strip('/n').split('\t')
+        #variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'])
 
 
 ###########Joint Genotyping
