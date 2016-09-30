@@ -36,7 +36,6 @@ PBS_scripts = abspath('GATK_PBS_scripts')
 bwaIndex = abspath(args.bwaindex)
 gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s' % bwaIndex
 
-os.system('mkdir -p %s' % resultsDir)
 os.system('mkdir -p %s' % bamFolder)
 os.system('mkdir -p %s' % variantFolder)
 os.system('mkdir -p %s' % PBS_scripts)
