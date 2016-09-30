@@ -10,7 +10,6 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-s', "--samples", help="Samples.txt file with sample ID.", required=True)
-#parser.add_argument('-r', "--rawdata", help="Path to raw fastq data.", required=True)
 parser.add_argument('-b', "--bwaindex", help="Path to bwa index file.", required=True)
 args = parser.parse_args()
 
@@ -32,7 +31,7 @@ for l in open(args.samples):
 # Setup folders and paths variables:
 bamFolder = abspath('02-Mapped')
 variantFolder = abspath('03-Calls')
-PBS_scripts = abspath('PBS_scripts')
+PBS_scripts = abspath('GATK_PBS_scripts')
 rawdataDir = abspath(args.rawdata)
 bwaIndex = abspath(args.bwaindex)
 gatkCall = 'java -jar /opt/modules/biology/gatk/3.5/bin/GenomeAnalysisTK.jar -R %s' % bwaIndex
