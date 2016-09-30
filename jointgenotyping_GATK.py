@@ -66,11 +66,11 @@ for sample in samples:
         if len(l) > 1:
             variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
 
-'''
+
 ###########Joint Genotyping
 #cmd = ' '.join([gatkCall, ' -T GenotypeGVCFs ', variants, ' -o ' + jp(variantFolder) + 'joint.variants.vcf', '>>', logFile, '2>&1'])
 #log(cmd, logCommands)
 #os.system(cmd)
-'''    
+   
     
 logCommands.close()
