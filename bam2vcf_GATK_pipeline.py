@@ -76,6 +76,4 @@ for sample in samples:
     log(cmd, logCommands)
     #os.system(cmd)
     
-    logCommands.close()    
-
-    
+    logCommands.close()
