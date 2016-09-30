@@ -65,7 +65,7 @@ for sample in samples:
     for l in samples:
 #        print samples
         if len(l) > 1:
-            variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
+            variants=variants.append(l.join(['--variant ' + jp(variantFolder, sample) + '.raw.snps.indels.g.vcf'].strip('/n').split('\t'))
         print variants
 
 
