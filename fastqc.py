@@ -65,3 +65,9 @@ for sample in samples:
     log(cmd, logCommands)
     os.system(cmd)
     logCommands.close()
+    
+    #Depth of coverage using GATK
+    cmd = ' '.join([gatkCall,  ' -T DepthOfCoverage ', ' -I ' + jp(bamFolder, sample) + ".bam", 
+                     ' -o ' + jp(variantFolder, sample), '>>', logFile, '2>&1'])
+    log(cmd, logCommands)
+   
