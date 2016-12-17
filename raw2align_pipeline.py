@@ -56,7 +56,7 @@ os.system('mkdir -p %s' % PBS_scripts)
 for sample in samples:
     print "Processing", sample, "....."
     # Set up files:
-    logFile = jp(resultsDir, sample + '_cleaning.log')
+    logFile = jp(PBS_scripts, sample + '_cleaning.log')
     logCommands = open(jp(PBS_scripts, sample + '_cleaning_commands.sh'), 'w')
 
     #Setup for qsub
@@ -116,7 +116,7 @@ for sample in samples:
 
 # Run BWA to map PE samples to reference genome (make sure ref is properly formated (see top of script))
 # -t number of threads -R read group header
-    logFile = jp(resultsDir, sample + '_mapping.log')
+    logFile = jp(PBS_scripts, sample + '_mapping.log')
     cmd = ' '.join(["bwa mem -t 16 -R '@RG\tID:bwa\tSM:" + sample + "\tPL:ILLUMINA'",
                     bwaIndex, jp(resultsDir, sample + "_cleaned_PE1.fastq.gz"),
                     jp(resultsDir, sample + "_cleaned_PE2.fastq.gz"), "| samtools view -bS -@ 30 -o", jp(bamFolder, sample) + "PE.bam",
