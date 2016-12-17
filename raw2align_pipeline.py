@@ -103,7 +103,7 @@ for sample in samples:
     log(cmd, logCommands)
 
 # Clean up intermediary files:
-     cmd = ' '.join(['rm', jp(resultsDir, sample + "_sd*"), jp(resultsDir, sample + "_sickle*"), jp(resultsDir, sample + "_flash.extendedFrags.fastq")])
+     cmd = ' '.join(['rm', jp(resultsDir, sample + "_sickle*"), jp(resultsDir, sample + "_flash.extendedFrags.fastq")])
      log(cmd, logCommands)
 
 # Compress cleaned files:
