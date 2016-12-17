@@ -77,7 +77,7 @@ for sample in samples:
 # the --max-overlap was set to 600, but that seems really long; default is 65, try 300
 # --max-overlap 400 --min-overlap 15 --max-mismatch-density .10 --min-overlap-outie 35 --percent-cutoff 25
     cmd = ' '.join(['flash2 --max-overlap 300 --allow-outies --threads 7', ' -d ', resultsDir, ' -o ', jp(sample + '_flash'),
-                    jp(rawdataDir, sample + '.fastq.1.gz'), jp(rawdataDir, sample + '.fastq.2.gz'),
+                    jp(rawdataDir, sample + '_L001_R1_001.fastq.gz'), jp(rawdataDir, sample + '_L001_R2_001.fastq.gz'),
                     '>>', logFile, '2>&1'])
     log(cmd, logCommands)
 
