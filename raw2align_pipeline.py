@@ -119,7 +119,7 @@ for sample in samples:
     logFile = jp(PBS_scripts, sample + '_mapping.log')
     cmd = ' '.join(["bwa mem -t 16 -R '@RG\tID:bwa\tSM:" + sample + "\tPL:ILLUMINA'",
                     bwaIndex, jp(resultsDir, sample + "_cleaned_PE1.fastq.gz"),
-                    jp(resultsDir, sample + "_cleaned_PE2.fastq.gz"), "| samtools view -bS -@ 30 -o", jp(bamFolder, sample) + "PE.bam",
+                    jp(resultsDir, sample + "_cleaned_PE2.fastq.gz"), "| samtools view -bS -@ 30 -o", jp(bamFolder, sample) + "_PE.bam",
                     "2>", logFile])
     log(cmd, logCommands)
 
@@ -130,7 +130,7 @@ for sample in samples:
     log(cmd, logCommands)
 
 # merge
-    cmd = ' '.join(['samtools merge -c', jp(bamFolder, sample + ".bam"), jp(bamFolder, sample + "PE.bam"), jp(bamFolder, sample + "SE.bam")])
+    cmd = ' '.join(['samtools merge -c', jp(bamFolder, sample + ".bam"), jp(bamFolder, sample + "_PE.bam"), jp(bamFolder, sample + "_SE.bam")])
     log(cmd, logCommands)
 
 # make sure there can be lots of files or it will not be able to handle the samtools sort
