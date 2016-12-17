@@ -102,10 +102,6 @@ for sample in samples:
     cmd = ' '.join(['mv', jp(resultsDir, sample + "_sickle_PE2.fastq"), jp(resultsDir, sample + "_cleaned_PE2.fastq")])
     log(cmd, logCommands)
 
-# Clean up intermediary files:
-     cmd = ' '.join(['rm', jp(resultsDir, sample + "_sickle*"), jp(resultsDir, sample + "_flash.extendedFrags.fastq")])
-     log(cmd, logCommands)
-
 # Compress cleaned files:
     cmd = ' '.join(['gzip', jp(resultsDir, sample + '*.fastq')])
     log(cmd, logCommands)
@@ -123,7 +119,7 @@ for sample in samples:
     logFile = jp(resultsDir, sample + '_mapping.log')
     cmd = ' '.join(["bwa mem -t 16 -R '@RG\tID:bwa\tSM:" + sample + "\tPL:ILLUMINA'",
                     bwaIndex, jp(resultsDir, sample + "_cleaned_PE1.fastq.gz"),
-                    jp(resultsDir, sample + "_cleaned_PE2.fastq.gz"), "| samtools view -bS -@ 30 -o", jp(bamFolder, sample) + "PE.bam"
+                    jp(resultsDir, sample + "_cleaned_PE2.fastq.gz"), "| samtools view -bS -@ 30 -o", jp(bamFolder, sample) + "PE.bam",
                     "2>", logFile])
     log(cmd, logCommands)
 
