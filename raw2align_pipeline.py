@@ -129,8 +129,8 @@ for sample in samples:
                     "2>>", logFile])
     log(cmd, logCommands)
 
-# merge
-    cmd = ' '.join(['samtools merge -c', jp(bamFolder, sample + ".bam"), jp(bamFolder, sample + "_PE.bam"), jp(bamFolder, sample + "_SE.bam")])
+# merge (-cp emits only one @RG and @PG header lines)
+    cmd = ' '.join(['samtools merge -cp', jp(bamFolder, sample + ".bam"), jp(bamFolder, sample + "_PE.bam"), jp(bamFolder, sample + "_SE.bam")])
     log(cmd, logCommands)
 
 # make sure there can be lots of files or it will not be able to handle the samtools sort
@@ -138,11 +138,11 @@ for sample in samples:
     log(cmd, logCommands)
     
 # sort bam file; -@ number of threads
-    cmd = ' '.join(['samtools sort -o', jp(bamFolder, sample) + "sorted.bam", ' -@ 30', jp(bamFolder, sample + ".bam")])
+    cmd = ' '.join(['samtools sort -o', jp(bamFolder, sample) + "_sorted.bam", ' -@ 30', jp(bamFolder, sample + ".bam")])
     log(cmd, logCommands)
 
 # Mark PCR duplicates (remove duplicates, if desired)
-    cmd = ' '.join([picardCall, ' INPUT=' + jp(bamFolder, sample + "sorted.bam"), ' OUTPUT=' + jp(bamFolder, sample + "_markdup.bam"),
+    cmd = ' '.join([picardCall, ' INPUT=' + jp(bamFolder, sample + "_sorted.bam"), ' OUTPUT=' + jp(bamFolder, sample + "_markdup.bam"),
                     ' METRICS_FILE=' + jp(bamFolder, sample + ".metrics"), ' REMOVE_DUPLICATES=true ',
                     ' ASSUME_SORTED=true VALIDATION_STRINGENCY=LENIENT', '>>', logFile, '2>&1'])
     log(cmd, logCommands)
